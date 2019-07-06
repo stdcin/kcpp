@@ -1,19 +1,21 @@
 language: cpp
-os: linux
 compiler: gcc
 
 matrix:
   include:
     - os: linux
       dist: xenial
+      addons:
+        apt:
+          packages:
+            - cmake
+            - libevent
+            - libpcap
+
 
 cache: # see https://docs.travis-ci.com/user/caching/
   - directories:
       - $HOME/.cache
-
-#addons:
-#  apt:
-#    packages: libevent-dev
 
 install:
   # (fake) install dependencies (usually involves wget, configure, make, ...)
@@ -22,12 +24,11 @@ install:
 # - touch $HOME/.cache/mydependency.so
 
 script:
-  ############################################################################
-  # Build kcpp
-  ############################################################################
+  - git submodule update --init
   - mkdir -p build
   - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release ..
+  - cmake ..
   - make
+  - make test
 
 after_success:
