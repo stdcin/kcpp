@@ -35,4 +35,22 @@ skip_commits:
 
 
 after_build:
-  - 7z a dlltest-%Configuration%.zip %Configuration%\
+  - 7z a kcpp-windows-x86-%Configuration%.zip %Configuration%\
+
+artifacts:
+  - path: kcpp-windows-x86-%Configuration%.zip
+    name: kcpp
+    type: zip
+
+
+# https://www.appveyor.com/docs/deployment/github/#promoting-selected-tag-to-github-release
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: OGsDOhVHdeWq7ejDbd8R+tj+xxZbkJ6oi9XQJ4RY6WAJHmg+5scgeyEIsrGhXkJ+
+  artifact: kcpp
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    APPVEYOR_REPO_TAG: true        # deploy on tag push only
