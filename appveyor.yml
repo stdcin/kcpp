@@ -35,7 +35,7 @@ skip_commits:
 
 
 after_build:
-  - 7z a kcpp-windows-x86-%Configuration%.zip %Configuration%\
+  - 7z a kcpp-windows-x86-%Configuration%.zip bin\%Configuration%
 
 artifacts:
   - path: build/kcpp-windows-x86-%Configuration%.zip
