@@ -1,0 +1,33 @@
+language: cpp
+os: linux
+compiler: gcc
+
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+
+cache: # see https://docs.travis-ci.com/user/caching/
+  - directories:
+      - $HOME/.cache
+
+#addons:
+#  apt:
+#    packages: libevent-dev
+
+install:
+  # (fake) install dependencies (usually involves wget, configure, make, ...)
+  # install into cache folder (build binaries+headers only, no sources and do NOT build there)
+  - mkdir -p $HOME/.cache
+# - touch $HOME/.cache/mydependency.so
+
+script:
+  ############################################################################
+  # Build kcpp
+  ############################################################################
+  - mkdir -p build
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=Release ..
+  - make
+
+after_success:
