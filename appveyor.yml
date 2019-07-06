@@ -38,7 +38,7 @@ after_build:
   - 7z a kcpp-windows-x86-%Configuration%.zip %Configuration%\
 
 artifacts:
-  - path: kcpp-windows-x86-%Configuration%.zip
+  - path: build/kcpp-windows-x86-%Configuration%.zip
     name: kcpp
     type: zip
 
