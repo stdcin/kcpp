@@ -9,8 +9,8 @@ matrix:
         apt:
           packages:
             - cmake
-            - libevent
-            - libpcap
+            - libevent-dev
+            - libpcap-dev
 
 
 cache: # see https://docs.travis-ci.com/user/caching/
