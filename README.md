@@ -1,7 +1,7 @@
 ## Build (linux) [![Build Status](https://travis-ci.com/stdcin/kcpp.svg?branch=master)](https://travis-ci.com/stdcin/kcpp)
 ```
 sudo apt-get update
-sudo apt-get install libevent-dev libpcap-dev
+sudo apt-get install libevent-dev libpcap-dev libssl-dev
 
 mkdir build && cd build
 cmake ..

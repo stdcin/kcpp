@@ -13,10 +13,10 @@ matrix:
             - libpcap-dev
             - libssl-dev
 
-
-cache: # see https://docs.travis-ci.com/user/caching/
-  - directories:
-      - $HOME/.cache
+# see https://docs.travis-ci.com/user/caching/
+#cache:
+#  - directories:
+#      - $HOME/.cache
 
 install:
   # (fake) install dependencies (usually involves wget, configure, make, ...)
@@ -24,11 +24,13 @@ install:
   - mkdir -p $HOME/.cache
 # - touch $HOME/.cache/mydependency.so
 
-script:
+before_script:
   - git submodule update --init
   - mkdir -p build
   - cd build
   - cmake .. -DKCPP__ENABLE_TESTS=ON
+
+script:
   - make
   - make test
 
