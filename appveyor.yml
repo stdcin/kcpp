@@ -33,3 +33,6 @@ cache:
 skip_commits:
   message: /Update documentation.*/
 
+
+after_build:
+  - 7z a dlltest-%Configuration%.zip %Configuration%\
