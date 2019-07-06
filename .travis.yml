@@ -28,7 +28,7 @@ script:
   - git submodule update --init
   - mkdir -p build
   - cd build
-  - cmake .. -DDKCPP__ENABLE_TESTS=ON
+  - cmake .. -DKCPP__ENABLE_TESTS=ON
   - make
   - make test
 
