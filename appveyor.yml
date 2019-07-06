@@ -13,12 +13,11 @@ configuration:
 
 before_build:
   - cmd: |-
-      dir C:\
       git submodule update --init
       mkdir build
       cd build
       cmake --version
-      cmake .. -G "Visual Studio 15 2017" -DKCPP__ENABLE_TESTS=ON
+      cmake .. -G "Visual Studio 15 2017" -DKCPP__ENABLE_TESTS=OFF
 
 build:
   project: build/kcpp.sln
@@ -30,7 +29,6 @@ test_script:
 
 cache:
   - C:/projects/kcpp/build
-  - build
 
 skip_commits:
   message: /Update documentation.*/
