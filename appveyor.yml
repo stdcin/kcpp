@@ -29,7 +29,7 @@ test_script:
   - ctest
 
 cache:
-  - build/
+  - C:/projects/kcpp/build
 
 skip_commits:
   message: /Update documentation.*/

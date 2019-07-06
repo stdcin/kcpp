@@ -11,6 +11,7 @@ matrix:
             - cmake
             - libevent-dev
             - libpcap-dev
+            - libssl-dev
 
 
 cache: # see https://docs.travis-ci.com/user/caching/
@@ -27,7 +28,7 @@ script:
   - git submodule update --init
   - mkdir -p build
   - cd build
-  - cmake ..
+  - cmake .. -DDKCPP__ENABLE_TESTS=ON
   - make
   - make test
 
