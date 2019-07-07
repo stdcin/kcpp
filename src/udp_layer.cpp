@@ -3,7 +3,7 @@
 #include <event2/event.h>
 #include "defines.h"
 #include "utils.h"
-#include "config_t.h"
+#include "configuration.h"
 
 udp_layer::udp_layer(const sock_address &saddr, bool client)
     : saddr_(saddr), is_client_(client), closed_(false) {
@@ -23,8 +23,8 @@ bool udp_layer::start() {
 #ifdef SO_NOSIGPIPE
         setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &opt, sizeof(opt));
 #endif
-        size_t len = get_sockaddr_len((sockaddr *) &saddr_);
-        if (bind(fd_, (const sockaddr *) &saddr_, len)) {
+        int len = saddr_.len();
+        if (bind(fd_, (const sockaddr *) &saddr_, static_cast<socklen_t>(len))) {
             evutil_closesocket(fd_);
             LOGF("udp bind err");
             return false;

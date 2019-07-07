@@ -4,7 +4,7 @@
 #include <event2/buffer.h>
 #include "defines.h"
 #include "utils.h"
-#include "config_t.h"
+#include "configuration.h"
 #include "trans_layer.h"
 #include "kcp.h"
 #include "ikcp.h"
@@ -17,7 +17,7 @@
 #define MAX_FRAME_SIZE 4096
 #endif
 
-session::session(uint32_t convid, const config_t &config, trans_layer &trans, const sock_address &epaddr)
+session::session(uint32_t convid, const configuration &config, trans_layer &trans, const sock_address &epaddr)
     : trans_layer_(trans), config_(config), endpoint_addr_(epaddr),
       frame_header_buffer_(frame::header_size), frame_data_buffer_(BUF_SIZE) {
 
@@ -203,7 +203,7 @@ int session::kcp_output(const char *buf, int len, struct IKCPCB *kcp, void *user
     return 0;
 }
 
-session *session::dial(const config_t &config, trans_layer &trans, const sock_address &raddr) {
+session *session::dial(const configuration &config, trans_layer &trans, const sock_address &raddr) {
     if (!trans.connect()) {
         return nullptr;
     }

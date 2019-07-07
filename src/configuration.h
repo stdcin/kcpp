@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <string>
 
-struct config_t {
+struct configuration {
     std::string localaddr;
     std::string remoteaddr;
     std::string config;
@@ -28,9 +28,9 @@ struct config_t {
     int nc;
 };
 
-void default_local_config(config_t &config);
-bool parse_local_config(config_t &config, int argc, const char *const *argv);
-void default_server_config(config_t &config);
-bool parse_server_config(config_t &config, int argc, const char *const *argv);
+void default_local_config(configuration &config);
+bool parse_local_config(configuration &config, int argc, const char *const *argv);
+void default_server_config(configuration &config);
+bool parse_server_config(configuration &config, int argc, const char *const *argv);
 
 #endif //KCPP_CONFIG_H

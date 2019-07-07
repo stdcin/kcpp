@@ -9,7 +9,7 @@
 #include <event2/thread.h>
 
 #include "defines.h"
-#include "config_t.h"
+#include "configuration.h"
 #include "session.h"
 #include "utils.h"
 #include "udp_layer.h"
@@ -31,7 +31,7 @@ class server {
         event_base_free(base_);
     }
 
-    void config(const config_t &cfg) { config_ = &cfg; }
+    void config(const configuration &cfg) { config_ = &cfg; }
 
     void run() {
         std::thread update_thread([this]() {
@@ -116,7 +116,7 @@ class server {
     }
 
     bool closed_ = false;
-    const config_t *config_;
+    const configuration *config_;
     event_base *base_;
     const sock_address &taddr_; //target server
     trans_layer &trans_layer_;
@@ -126,7 +126,7 @@ class server {
 };
 
 int main(int argc, char const *argv[]) {
-    config_t config;
+    configuration config;
     sock_address taddr, laddr;
     trans_layer *trans;
 

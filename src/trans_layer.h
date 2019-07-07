@@ -6,7 +6,7 @@
 #include "raw_packet.h"
 
 class crypto;
-struct config_t;
+struct configuration;
 class trans_layer {
  public:
     typedef moodycamel::BlockingConcurrentQueue<raw_packet *> queue_type;
@@ -17,8 +17,8 @@ class trans_layer {
     virtual bool connect() = 0;
     virtual int read_packets(std::vector<raw_packet *> &packets, bool block) = 0;
     virtual void send_packet(raw_packet *packet) = 0;
-    void config(const config_t &cfg);
-    const config_t &config() const { return *config_; }
+    void config(const configuration &cfg);
+    const configuration &config() const { return *config_; }
     constexpr static int header_size() { return 4 + 4; }
 
  protected:
@@ -37,7 +37,7 @@ class trans_layer {
 
     const int mtu_max_size = 1500;
     const size_t crypto_buf_size = 2048;
-    const config_t *config_;
+    const configuration *config_;
     crypto *crypto_;
 };
 

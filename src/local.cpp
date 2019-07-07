@@ -7,9 +7,7 @@
 #include <mutex>
 
 #ifdef __unix__
-
 #include <signal.h>
-
 #endif
 
 #include <event2/event.h>
@@ -17,7 +15,7 @@
 #include <event2/bufferevent.h>
 #include <event2/thread.h>
 #include "defines.h"
-#include "config_t.h"
+#include "configuration.h"
 #include "utils.h"
 #include "sock_address.h"
 #include "session.h"
@@ -32,7 +30,7 @@ class client {
         : trans_layer_(trans), raddr_(raddr), packets_(1024), config_(nullptr) {
     }
 
-    void config(const config_t &cfg) { config_ = &cfg; }
+    void config(const configuration &cfg) { config_ = &cfg; }
 
     session *acquire_connection() {
         LOCK_GUARD(sessions_mutex_);
@@ -125,7 +123,7 @@ class client {
     }
 
     bool closed_ = false;
-    const config_t *config_;
+    const configuration *config_;
     const sock_address &raddr_;
     trans_layer &trans_layer_;
     std::mutex sessions_mutex_;
@@ -180,7 +178,7 @@ event_cb(struct bufferevent *bev, short events, void *ctx) {
 }
 
 int main(int argc, char const *argv[]) {
-    config_t config;
+    configuration config;
     event_base *base;
     sock_address raddr, laddr;
     trans_layer *trans;
@@ -236,6 +234,10 @@ int main(int argc, char const *argv[]) {
     evconnlistener *listener = evconnlistener_new_bind(base, accept_cb, &c,
                                                        LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, -1,
                                                        (sockaddr *) &laddr.storage(), laddr.len());
+    if (listener == nullptr) {
+        LOGE("evconnlistener_new_bind err");
+        return -1;
+    }
     evconnlistener_set_error_cb(listener, accept_error_cb);
 
     LOGI("listening on %s", laddr.to_string().c_str());

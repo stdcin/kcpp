@@ -1,11 +1,11 @@
-#include "config_t.h"
+#include "configuration.h"
 #include <iostream>
 #include <fstream>
 #include "CLI/CLI11.hpp"
 #include "nlohmann/json.hpp"
 #include "defines.h"
 
-void default_local_config(config_t &config) {
+void default_local_config(configuration &config) {
     config.localaddr = "127.0.0.1:3000";
     config.remoteaddr = "127.0.0.1:19900";
     config.key = "secret_key";
@@ -27,7 +27,7 @@ void default_local_config(config_t &config) {
     config.nc = 1;
 }
 
-void default_server_config(config_t &config) {
+void default_server_config(configuration &config) {
     default_local_config(config);
     config.localaddr = "127.0.0.1:19900";
     config.remoteaddr = "127.0.0.1:1080";
@@ -43,7 +43,7 @@ static bool json_get_to(const nlohmann::json &j, const std::string &key, T &to) 
     }
 }
 
-static bool parse_config(config_t &config, bool client, int argc, const char *const *argv) {
+static bool parse_config(configuration &config, bool client, int argc, const char *const *argv) {
     CLI::App app;
     app.get_formatter()->column_width(40);
     if (client) {
@@ -83,6 +83,16 @@ static bool parse_config(config_t &config, bool client, int argc, const char *co
         return false;
     }
 
+#ifdef _WIN32
+	if (config.config.empty()) {
+		const std::string file = "config.json";
+		std::ifstream ifs(file);
+		if (ifs.good()) {
+			LOGI("load %s", file.c_str());
+			config.config = file;
+		}
+	}
+#endif
     if (!config.config.empty()) {
         std::ifstream ifs(config.config);
         if (!ifs.good()) {
@@ -167,10 +177,10 @@ static bool parse_config(config_t &config, bool client, int argc, const char *co
     return true;
 }
 
-bool parse_local_config(config_t &config, int argc, const char *const *argv) {
+bool parse_local_config(configuration &config, int argc, const char *const *argv) {
     return parse_config(config, true, argc, argv);
 }
 
-bool parse_server_config(config_t &config, int argc, const char *const *argv) {
+bool parse_server_config(configuration &config, int argc, const char *const *argv) {
     return parse_config(config, false, argc, argv);
 }

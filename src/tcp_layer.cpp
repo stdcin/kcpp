@@ -9,7 +9,7 @@
 #include <event2/event.h>
 #include "defines.h"
 #include "utils.h"
-#include "config_t.h"
+#include "configuration.h"
 
 using namespace Tins;
 using namespace std::chrono;
@@ -394,6 +394,24 @@ bool tcp_layer::update_firewall_rules() {
 #ifdef _WIN32
     int n;
     char cmd[512];
+	bool is_admin;
+
+	HANDLE hToken = NULL;
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
+		TOKEN_ELEVATION Elevation;
+		DWORD cbSize = sizeof(TOKEN_ELEVATION);
+		if (GetTokenInformation(hToken, TokenElevation, &Elevation, sizeof(Elevation), &cbSize)) {
+			is_admin = Elevation.TokenIsElevated;
+		}
+	}
+	if (hToken) {
+		CloseHandle(hToken);
+	}
+	if (!is_admin) {
+		LOGE("must run as administrator");
+		return false;
+	}
+
     //turn on firewall
     n = system("netsh advfirewall set allprofiles state on");
     if (n != 0) {

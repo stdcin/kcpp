@@ -2,7 +2,7 @@
 #include <cstring>
 #include "crypto.h"
 #include "defines.h"
-#include "config_t.h"
+#include "configuration.h"
 
 trans_layer::trans_layer()
     : config_(nullptr), crypto_(nullptr) {
@@ -14,7 +14,7 @@ trans_layer::~trans_layer() {
     }
 }
 
-void trans_layer::config(const config_t &cfg) {
+void trans_layer::config(const configuration &cfg) {
     config_ = &cfg;
     if (cfg.crypt == "aes") {
         crypto_ = new crypto_aes256_cfb;

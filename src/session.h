@@ -11,7 +11,7 @@
 #include "sock_address.h"
 #include "stream.h"
 
-struct config_t;
+struct configuration;
 class frame;
 class kcp;
 class trans_layer;
@@ -20,7 +20,7 @@ class session {
     typedef std::chrono::time_point<std::chrono::system_clock> time_point_type;
     typedef std::chrono::milliseconds time_duration_type;
 
-    explicit session(uint32_t convid, const config_t &config,
+    explicit session(uint32_t convid, const configuration &config,
                      trans_layer &trans, const sock_address &epaddr);
     ~session();
     // set session target address
@@ -29,8 +29,8 @@ class session {
     void update();
     void kcp_input(const uint8_t *data, size_t size);
     bool closed() const { return closed_; }
-    const config_t &get_config() const { return config_; }
-    static session *dial(const config_t &config, trans_layer &trans, const sock_address &raddr);
+    const configuration &get_config() const { return config_; }
+    static session *dial(const configuration &config, trans_layer &trans, const sock_address &raddr);
 
  private:
     void write_frame(const frame &frame);
@@ -47,7 +47,7 @@ class session {
 
     bool client_;
     std::atomic<bool> closed_ = {false};
-    const config_t &config_;
+    const configuration &config_;
     event_base *base_;
     std::unordered_map<uint32_t, stream *> streams_;
     std::mutex streams_mutex_;

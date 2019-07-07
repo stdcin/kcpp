@@ -4,7 +4,7 @@ TEST_BIG_ENDIAN(IS_BIG_ENDIAN)
 set(SOURCES kcp.cpp zf_log.c utils.cpp stream.cpp
         sock_address.cpp session.cpp crypto.cpp
         udp_layer.cpp trans_layer.cpp
-        frame.cpp config_t.cpp)
+        frame.cpp configuration.cpp)
 if (NOT KCPP__DISABLE_TCP)
     set(SOURCES ${SOURCES} tcp_layer.cpp)
 endif ()
