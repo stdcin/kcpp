@@ -31,7 +31,9 @@ void trans_layer::config(const config_t &cfg) {
     }
 
     if (crypto_ != nullptr) {
-        assert(crypto_->password(cfg.key));
+        if (!crypto_->password(cfg.key)) {
+            LOGF("crypto::password() err");
+        }
     }
 }
 
@@ -113,7 +115,7 @@ raw_packet *trans_layer::process_input_packet(const sock_address &from,
 
         uint32_t checksum = crypto_crc32(payload, payload_size);
         if (checksum != crc32) {
-            //LOGD("invalid checksum, len=%d %s", payload_size, from.to_string().c_str());
+            // LOGW("invalid checksum %X/%X %s", crc32, checksum, from.to_string().c_str());
             break;
         }
         raw_packet *packet = new raw_packet(from, payload, payload_size);

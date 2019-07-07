@@ -16,8 +16,9 @@ crypto::crypto(int key_size, int block_size)
 }
 
 bool crypto::password(std::string password) {
+    int salt_len = strlen(salt);
     int n = PKCS5_PBKDF2_HMAC_SHA1(password.c_str(), static_cast<int>(password.size()),
-                                   (const unsigned char *) salt, static_cast<int>(strlen(salt)),
+                                   (const unsigned char *) salt, salt_len,
                                    4096, key_size_, key_.data());
     return n == 1;
 }

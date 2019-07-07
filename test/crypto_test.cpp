@@ -153,6 +153,16 @@ static void test_checksum(crypto *co) {
 }
 
 TEST(CryptoTest, checksum) {
+
+    std::string message =
+        "Integer ac tincidunt tellus, non pharetra orci. Nullam in semper neque. Duis enim eros, gravida id nunc nec, "
+        "vulputate commodo sem. Phasellus erat dolor, iaculis at arcu eu, laoreet placerat ipsum. "
+        "Fusce tempor turpis nunc, sed auctor quam volutpat eget. Donec sollicitudin, ex quis dapibus ullamcorper, "
+        "turpis augue tempor tellus, non facilisis ipsum sapien et neque. "
+        "Aliquam hendrerit aliquet purus bibendum bibendum";
+    uint32_t crc32 = crypto_crc32((const uint8_t *) message.data(), message.size());
+    EXPECT_EQ(crc32, 0x0F95E94C);
+
     std::vector<crypto *> vec;
     vec.push_back(new crypto_aes128_cbc);
     vec.push_back(new crypto_aes192_cbc);
@@ -165,3 +175,4 @@ TEST(CryptoTest, checksum) {
         delete co;
     }
 }
+
