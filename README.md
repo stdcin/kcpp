@@ -16,6 +16,7 @@ make install
 [](https://slproweb.com/products/Win32OpenSSL.html)
 
 ```
+git clone ...
 git submodule update --init
 mkdir build
 cd build

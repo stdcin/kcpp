@@ -16,7 +16,6 @@ before_build:
       git submodule update --init
       if not exist "build" mkdir "build"
       cd build
-      rmdir /s /q  bin
       cmake --version
       cmake .. -G "Visual Studio 15 2017" -DKCPP__ENABLE_TESTS=OFF
 

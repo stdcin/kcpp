@@ -15,7 +15,7 @@ using namespace Tins;
 using namespace std::chrono;
 
 #ifndef DUMMY_IP_ADDRESS
-#define DUMMY_IP_ADDRESS "8.8.8.8"
+#define DUMMY_IP_ADDRESS "114.114.114.114"
 #endif
 
 tcp_layer::tcp_layer(const sock_address &saddr, const std::string &iface, bool client)
