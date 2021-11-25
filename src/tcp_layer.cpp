@@ -80,7 +80,7 @@ bool tcp_layer::start() {
     }
 
     sock_address addr;
-    if (!get_sockaddr(DUMMY_IP_ADDRESS, "853", &addr.storage())) {
+    if (!get_sockaddr(DUMMY_IP_ADDRESS, "53", &addr.storage())) {
         LOGE("cannot get sockaddr %s", DUMMY_IP_ADDRESS);
         return false;
     }
